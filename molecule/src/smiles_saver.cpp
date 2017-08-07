@@ -830,7 +830,14 @@ void SmilesSaver::_writeAtom (int idx, bool aromatic, bool lowercase, int chiral
    if (_qmol != 0)
       _qmol->getAtom(idx).sureValue(QueryMolecule::ATOM_TOTAL_H, hydro);
 
-   if (hydro >= 0)
+   // According to the Daylight Theory SMILES 3.2.1 Atoms,
+   // "Within brackets, any attached hydrogens and formal charges must always be
+   // specified." and to the OpenSMILES specification 3.6. More about Hydrogen,
+   // "Any atom that is specified with square brackets must have its attached
+   // hydrogens explicitly represented, either as a hydrogen count or as normal
+   // atoms."
+   // So we don't have to need brackets when hydro == 0.
+   if (hydro > 0)
       need_brackets = true;
 
    if (need_brackets)
