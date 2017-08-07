@@ -818,21 +818,54 @@ int Molecule::_getImplicitHForConnectivity (int idx, int conn, bool use_cache)
             }
          }
 
-         if (atom.number == ELEM_C && atom.charge == 0)
+         if (degree == 2)
          {
-            if (degree == 3)
-               impl_h = -Element::radicalElectrons(radical);
-            else if (degree == 2)
-               impl_h = 1 - Element::radicalElectrons(radical);
+           if (atom.number == ELEM_C && atom.charge == -1)
+             impl_h = 0;
+           else if (atom.number == ELEM_C && atom.charge == 0)
+             impl_h = 1 - Element::radicalElectrons(radical);
+           else if (atom.number == ELEM_C && atom.charge == 1)
+             impl_h = 0;
+           else if (atom.number == ELEM_B && atom.charge == 0)
+             impl_h = 0;
+           else if (atom.number == ELEM_O && atom.charge == 0)
+             impl_h = 0;
+           else if (atom.number == ELEM_O && atom.charge == 1)
+             impl_h = 0;
+           else if (atom.number == ELEM_N && atom.charge == -1)
+             impl_h = 0;
+           else if (atom.number == ELEM_N && atom.charge == 0)
+             impl_h = 0;
+           else if (atom.number == ELEM_P && atom.charge == -1)
+             impl_h = 0;
+           else if (atom.number == ELEM_P && atom.charge == 0)
+             impl_h = 0;
+           else if (atom.number == ELEM_S && atom.charge == 0)
+             impl_h = 0;
+           else if (atom.number == ELEM_S && atom.charge == 1)
+             impl_h = 0;
          }
-         else if (atom.number == ELEM_O && atom.charge == 0)
-            impl_h = 0;
-         else if (atom.number == ELEM_N && atom.charge == 0 && degree == 3)
-            impl_h = 0;
-         else if (atom.number == ELEM_N && atom.charge == 1 && degree == 3)
-            impl_h = 0;
-         else if (atom.number == ELEM_S && atom.charge == 0 && degree == 3)
-            impl_h = 0;
+         else if (degree == 3)
+         {
+           if (atom.number == ELEM_C && atom.charge == -1)
+             impl_h = 0;
+           else if (atom.number == ELEM_C && atom.charge == 0)
+             impl_h = -Element::radicalElectrons(radical);
+           else if (atom.number == ELEM_C && atom.charge == 1)
+             impl_h = 0;
+           else if (atom.number == ELEM_N && atom.charge == 0)
+             impl_h = 0;
+           else if (atom.number == ELEM_N && atom.charge == 1)
+             impl_h = 0;
+           else if (atom.number == ELEM_P && atom.charge == 0)
+             impl_h = 0;
+           else if (atom.number == ELEM_P && atom.charge == 1)
+             impl_h = 0;
+           else if (atom.number == ELEM_S && atom.charge == 0)
+             impl_h = 0;
+           else if (atom.number == ELEM_S && atom.charge == 1)
+             impl_h = 0;
+         }
       }
       else
          throw Error("internal: unsure connectivity on an aliphatic atom");
